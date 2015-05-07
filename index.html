@@ -31,10 +31,11 @@
         function buttonClick() {
         var element = document.getElementById("button1");
         var counter = Number(element.getAttribute("counter"));
-        if (counter == 1) element.innerHTML = "Does Nothing Useful";
+        if (counter == 1) element.innerHTML = "Does Nothing USEFUL";
         else if (counter == 5) element.innerHTML = "Still Does Nothing...";
         else if (counter == 10) element.innerHTML = "Stop Clicking!";
-        else if (counter == 15) element.innerHTML = "Broken";
+        else if (counter == 15) element.innerHTML = "Broken Button";
+        else if (counter == 20) element.style.visibility = "hidden";
         element.setAttribute("counter", counter+1); }
     </script>
 
