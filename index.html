@@ -27,6 +27,17 @@
 
   <body>
 
+    <script type="text/javascript">
+        function buttonClick() {
+        var element = document.getElementById("button1");
+        var counter = Number(element.getAttribute("counter"));
+        if (counter == 1) element.innerHTML = "Does Nothing Useful";
+        else if (counter == 5) element.innerHTML = "Still Does Nothing...";
+        else if (counter == 10) element.innerHTML = "Stop Clicking!";
+        else if (counter == 15) element.innerHTML = "Broken";
+        element.setAttribute("counter", counter+1); }
+    </script>
+
     <div class="site-wrapper">
 
       <div class="site-wrapper-inner">
@@ -49,7 +60,7 @@
             <h1 class="cover-heading">Welcome to Snorlag's Page.</h1>
             <p class="lead">This page is a learning project for HTML and CSS.<br/>Feel free to explore, but don't expect everything to work!</p>
             <p class="lead">
-              <a href="#" class="btn btn-lg btn-default">Does Nothing</a>
+              <a onclick="buttonClick()" class="btn btn-lg btn-default" id="button1" counter=1>Does Nothing</a>
             </p>
           </div>
 
