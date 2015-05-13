@@ -98,6 +98,10 @@ body {
 	margin-bottom: 10px;
 }
 
+
+.masthead-brand > a {
+	text-decoration: none;
+}
 .masthead-nav > li {
 	display: inline-block;
 }

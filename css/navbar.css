@@ -1,0 +1,55 @@
+
+/*
+ Base structure
+ */
+body {
+	height = 100%;
+	padding-top: 60px;
+}
+
+
+/* Navbar */
+#brand {
+	margin-top: 8px;
+	margin-bottom: 8px;
+	margin-left: 12px;
+	margin-right: 10px;
+	display: inline-block;
+	color: rgb(235,245,255);
+	font-family: cursive, sans-serif;
+	font-size: 22px;
+	text-decoration: none;
+}
+
+nav li {
+	padding: 0px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+	display: inline-block;
+}
+
+nav li > a {
+	padding-right: 0px;
+	padding-left: 0px;
+	font-size: 16px;
+	font-weight: bold;
+	color: #fff;
+	/* IE8 proofing */
+	color: rgba(255,255,255, .75);
+}
+
+nav .active > a,
+nav .active > a:hover,
+nav .active > a:focus {
+	color: #fff;
+}
+
+@media (min-width: 768px) {
+	nav h3 {
+		float: left;
+	}
+	navbar-nav {
+		float: right;
+	}
+}

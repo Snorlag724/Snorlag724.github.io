@@ -27,18 +27,6 @@
 
   <body>
 
-    <script type="text/javascript">
-        function buttonClick() {
-        var element = document.getElementById("button1");
-        var counter = Number(element.getAttribute("counter"));
-        if (counter == 1) element.innerHTML = "Does Nothing USEFUL";
-        else if (counter == 5) element.innerHTML = "Still Does Nothing...";
-        else if (counter == 9) element.innerHTML = "Stop Clicking!";
-        else if (counter == 13) element.innerHTML = "Broken Button";
-        else if (counter == 16) element.style.visibility = "hidden";
-        element.setAttribute("counter", counter+1); }
-    </script>
-
     <div class="site-wrapper">
 
       <div class="site-wrapper-inner">
@@ -50,7 +38,7 @@
               <h3 class="masthead-brand">Snorlag724</h3>
               <nav>
                 <ul class="nav masthead-nav">
-                  <li class="active"><a href="index.html">Home</a></li>
+                  <li><a href="home.html">Home</a></li>
                   <li><a href="page2.html">Page 2</a></li>
                   <li><a href="civcalc.html">Civ Calc</a></li>
                 </ul>
@@ -60,14 +48,15 @@
 
           <div class="inner cover">
             <h1 class="cover-heading">Welcome to Snorlag's Page.</h1>
-            <p class="lead">This page is a learning project for HTML and CSS.<br/>Feel free to explore, but don't expect everything to work!</p>
+            <p class="lead">This page is a learning project for HTML and CSS.<br/>Feel free to look around and try out a few tools!</p>
             <p class="lead">
-              <a onclick="buttonClick()" class="btn btn-lg btn-default" id="button1" counter=1>Does Nothing</a>
+              <a href="home.html" class="btn btn-lg btn-default" id="button1" counter=1>Enter</a>
             </p>
           </div>
 
           <div class="mastfoot">
             <div class="inner">
+              <p>&copy; 2015 Snorlag724 - <a href="license.txt">License</a></p>
               <p>Powered by <a href="http://getbootstrap.com">Bootstrap</a>.</p>
             </div>
           </div>
