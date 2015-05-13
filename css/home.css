@@ -1,0 +1,8 @@
+.jumbotron {
+	background-color: rgb(245,240,235);
+	border-bottom: 1px solid lightgray;
+}
+
+.col-md-4 {
+	margin-bottom: 60px;
+}

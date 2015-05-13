@@ -499,7 +499,7 @@ function recalc() {
 
 	/* Total Owned */
 	totalOwned = totalOwned.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	document.getElementById("totalOwned").innerHTML = totalOwned;
 	/* Thanks to Elias Zamaria from StackOverflow for the RegEx script!
 		http://stackoverflow.com/questions/2901102 */
-	document.getElementById("totalOwned").innerHTML = totalOwned;
 }
