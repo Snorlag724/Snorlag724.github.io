@@ -1,0 +1,273 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+		<title>Civ Tech Calculator</title>
+		<meta name="author" content="Snorlag724">
+		<link rel="icon" href="img/dragon.ico">
+
+		<!-- Bootstrap core CSS -->
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+
+		<!-- Custom styles for this page -->
+		<link rel="stylesheet" href="css/civcalc.css">
+
+		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+		<!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+			<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<h3>Snorlag724</h3>
+				</div>
+				<div id="navbar" class="navbar-collapse collapse">
+					<ul class="nav navbar-nav">
+						<li><a href="index.html">Home</a></li>
+						<li><a href="page2.html">Page 2</a></li>
+						<li class="active"><a>Civ Calc</a></li>
+						<!--li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="#">Action</a></li>
+								<li><a href="#">Another action</a></li>
+								<li><a href="#">Something else here</a></li>
+								<li class="divider"></li>
+								<li class="dropdown-header">Nav header</li>
+								<li><a href="#">Separated link</a></li>
+								<li><a href="#">One more separated link</a></li>
+							</ul>
+						</li-->
+					</ul>
+				</div> <!-- navbar -->
+			</div> <!-- container -->
+		</nav>
+
+		<div class="container">
+
+			<h2>Tech Calculator for<br/>Advanced Civilization</h2>
+
+			<table>
+				<thead>
+					<tr>
+						<th class="cell-center" colspan="2">Type</th>
+						<th class="cell-center">Owned</th>
+						<th class="cell-left">Name</th>
+						<th class="cell-right">Value</th>
+						<th class="cell-right">Cost</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="cell-center craft" colspan="2"></td>
+						<td class="cell-center"><input type="checkbox" id="ckPot" onclick="recalc()"/></td>
+						<td class="cell-left">Pottery</td>
+						<td class="cell-right">45</td>
+						<td class="cell-right" id="txPot">45</td>
+					</tr>
+					<tr>
+						<td class="cell-center craft" colspan="2"></td>
+						<td class="cell-center"><input type="checkbox" id="ckClo" onclick="recalc()"/></td>
+						<td class="cell-left">Cloth Making</td>
+						<td class="cell-right">45</td>
+						<td class="cell-right" id="txClo">45</td>
+					</tr>
+					<tr>
+						<td class="cell-center craft" colspan="2"></td>
+						<td class="cell-center"><input type="checkbox" id="ckMet" onclick="recalc()"/></td>
+						<td class="cell-left">Metalworking</td>
+						<td class="cell-right">80</td>
+						<td class="cell-right" id="txMet">80</td>
+					</tr>
+					<tr>
+						<td class="cell-center craft" colspan="2"></td>
+						<td class="cell-center"><input type="checkbox" id="ckAgr" onclick="recalc()"/></td>
+						<td class="cell-left">Agriculture</td>
+						<td class="cell-right">110</td>
+						<td class="cell-right" id="txAgr">110</td>
+					</tr>
+					<tr>
+						<td class="cell-center craft" colspan="2"></td>
+						<td class="cell-center"><input type="checkbox" id="ckRoa" onclick="recalc()" style="visibility:hidden"/></td>
+						<td class="cell-left">Roadbuilding</td>
+						<td class="cell-right">140</td>
+						<td class="cell-right" id="txRoa"></td>
+					</tr>
+					<tr>
+						<td class="cell-center craft" colspan="2"></td>
+						<td class="cell-center"><input type="checkbox" id="ckMin" onclick="recalc()" style="visibility:hidden"/></td>
+						<td class="cell-left">Mining</td>
+						<td class="cell-right">180</td>
+						<td class="cell-right" id="txMin"></td>
+					</tr>
+					<tr>
+						<td class="cell-center craft"></td>
+						<td class="cell-center science"></td>
+						<td class="cell-center"><input type="checkbox" id="ckEng" onclick="recalc()"/></td>
+						<td class="cell-left">Engineering</td>
+						<td class="cell-right">140</td>
+						<td class="cell-right" id="txEng">140</td>
+					</tr>
+					<tr>
+						<td class="cell-center science" colspan="2"></td>
+						<td class="cell-center"><input type="checkbox" id="ckAst" onclick="recalc()"/></td>
+						<td class="cell-left">Astronomy</td>
+						<td class="cell-right">80</td>
+						<td class="cell-right" id="txAst">80</td>
+					</tr>
+					<tr>
+						<td class="cell-center science" colspan="2"></td>
+						<td class="cell-center"><input type="checkbox" id="ckCoi" onclick="recalc()"/></td>
+						<td class="cell-left">Coinage</td>
+						<td class="cell-right">110</td>
+						<td class="cell-right" id="txCoi">110</td>
+					</tr>
+					<tr>
+						<td class="cell-center science" colspan="2"></td>
+						<td class="cell-center"><input type="checkbox" id="ckMed" onclick="recalc()"/></td>
+						<td class="cell-left">Medicine</td>
+						<td class="cell-right">140</td>
+						<td class="cell-right" id="txMed">140</td>
+					</tr>
+					<tr>
+						<td class="cell-center science"></td>
+						<td class="cell-center art"></td>
+						<td class="cell-center"><input type="checkbox" id="ckMat" onclick="recalc()"/></td>
+						<td class="cell-left">Mathematics</td>
+						<td class="cell-right">230</td>
+						<td class="cell-right" id="txMat">230</td>
+					</tr>
+					<tr>
+						<td class="cell-center art" colspan="2"></td>
+						<td class="cell-center"><input type="checkbox" id="ckDra" onclick="recalc()"/></td>
+						<td class="cell-left">Drama & Poetry</td>
+						<td class="cell-right">60</td>
+						<td class="cell-right" id="txDra">60</td>
+					</tr>
+					<tr>
+						<td class="cell-center art" colspan="2"></td>
+						<td class="cell-center"><input type="checkbox" id="ckMus" onclick="recalc()"/></td>
+						<td class="cell-left">Music</td>
+						<td class="cell-right">60</td>
+						<td class="cell-right" id="txMus">60</td>
+					</tr>
+					<tr>
+						<td class="cell-center art" colspan="2"></td>
+						<td class="cell-center"><input type="checkbox" id="ckArc" onclick="recalc()"/></td>
+						<td class="cell-left">Architecture</td>
+						<td class="cell-right">120</td>
+						<td class="cell-right" id="txArc">120</td>
+					</tr>
+					<tr>
+						<td class="cell-center art"></td>
+						<td class="cell-center civic"></td>
+						<td class="cell-center"><input type="checkbox" id="ckLit" onclick="recalc()"/></td>
+						<td class="cell-left">Literacy</td>
+						<td class="cell-right">110</td>
+						<td class="cell-right" id="txLit">110</td>
+					</tr>
+					<tr>
+						<td class="cell-center civic" colspan="2"></td>
+						<td class="cell-center"><input type="checkbox" id="ckMil" onclick="recalc()"/></td>
+						<td class="cell-left">Military</td>
+						<td class="cell-right">180</td>
+						<td class="cell-right" id="txMil">180</td>
+					</tr>
+					<tr>
+						<td class="cell-center civic" colspan="2"></td>
+						<td class="cell-center"><input type="checkbox" id="ckLaw" onclick="recalc()"/></td>
+						<td class="cell-left">Law</td>
+						<td class="cell-right">170</td>
+						<td class="cell-right" id="txLaw">170</td>
+					</tr>
+					<tr>
+						<td class="cell-center civic" colspan="2"></td>
+						<td class="cell-center"><input type="checkbox" id="ckDem" onclick="recalc()" style="visibility:hidden"/></td>
+						<td class="cell-left">Democracy</td>
+						<td class="cell-right">200</td>
+						<td class="cell-right" id="txDem"></td>
+					</tr>
+					<tr>
+						<td class="cell-center civic" colspan="2"></td>
+						<td class="cell-center"><input type="checkbox" id="ckPhi" onclick="recalc()" style="visibility:hidden"/></td>
+						<td class="cell-left">Philosophy</td>
+						<td class="cell-right">240</td>
+						<td class="cell-right" id="txPhi"></td>
+					</tr>
+					<tr>
+						<td class="cell-center art"></td>
+						<td class="cell-center religion"></td>
+						<td class="cell-center"><input type="checkbox" id="ckMys" onclick="recalc()"/></td>
+						<td class="cell-left">Mysticism</td>
+						<td class="cell-right">50</td>
+						<td class="cell-right" id="txMys">50</td>
+					</tr>
+					<tr>
+						<td class="cell-center religion" colspan="2"></td>
+						<td class="cell-center"><input type="checkbox" id="ckDei" onclick="recalc()"/></td>
+						<td class="cell-left">Deism</td>
+						<td class="cell-right">80</td>
+						<td class="cell-right" id="txDei">80</td>
+					</tr>
+					<tr>
+						<td class="cell-center religion" colspan="2"></td>
+						<td class="cell-center"><input type="checkbox" id="ckEnl" onclick="recalc()"/></td>
+						<td class="cell-left">Enlightenment</td>
+						<td class="cell-right">150</td>
+						<td class="cell-right" id="txEnl">150</td>
+					</tr>
+					<tr>
+						<td class="cell-center religion" colspan="2"></td>
+						<td class="cell-center"><input type="checkbox" id="ckMon" onclick="recalc()" style="visibility:hidden"/></td>
+						<td class="cell-left">Monotheism</td>
+						<td class="cell-right">220</td>
+						<td class="cell-right" id="txMon"></td>
+					</tr>
+					<tr>
+						<td class="cell-center religion" colspan="2"></td>
+						<td class="cell-center"><input type="checkbox" id="ckThe" onclick="recalc()" style="visibility:hidden"/></td>
+						<td class="cell-left">Theology</td>
+						<td class="cell-right">250</td>
+						<td class="cell-right" id="txThe"></td>
+					</tr>
+					<tr>
+						<th class="cell-right" colspan="4">Total Owned</td>
+						<th class="cell-center" colspan="2" id="totalOwned">0</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<p>&nbsp</p>
+			<p>&nbsp</p>
+			<p>&nbsp</p>
+			<p>&copy; 2015 Snorlag724 - <a href="LICENSE">License</a></p>
+			<p>Civilization &copy; 1998 - Hasbro, Inc.<br/>Advanced Civilization &copy; 1991 - Avalon Hill</p>
+
+		</div> <!-- container -->
+
+		<script src="js/civcalc.js"></script>
+
+		<!-- Bootstrap core JavaScript
+		================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+		<script src="js/ie10-viewport-bug-workaround.js"></script>
+	</body>
+</html>
