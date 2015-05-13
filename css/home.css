@@ -3,6 +3,6 @@
 	border-bottom: 1px solid lightgray;
 }
 
-.col-md-4 {
+[class*="col-"] {
 	margin-bottom: 60px;
 }
