@@ -3,8 +3,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-        <title>Babylon.js Position Sample</title>
-
+        <title>Babylon.js Scaling Sample</title>
+        
         <style>
             html, body {
                 overflow: hidden;
@@ -27,16 +27,15 @@
         <!--script src="../library/oimo.js"></script-->
         <script src="../library/babylon.js"></script>
 
-        <script src="js/position.js"></script>
+        <script src="js/scaling.js"></script>
 
     </head>
 <body>
+<div id="canvasZone">
 
-    <div id="canvasZone">
     <canvas id="renderCanvas"></canvas>
 
     <script type="text/javascript">
-
         var canvas = document.getElementById("renderCanvas");
         var engine = new BABYLON.Engine(canvas, true);
         
@@ -51,6 +50,7 @@
             engine.resize();
         });
     </script>
+
 </div>
 </body>
 </html>
