@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+
+        <title>Babylon.js Position Sample</title>
+
+        <style>
+            html, body {
+                overflow: hidden;
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            #renderCanvas {
+                width: 100%;
+                height: 100%;
+                touch-action: none;
+            }
+        </style>
+
+        <!-- Babylon.js -->
+        <script src="../library/hand.minified-1.2.js"></script>
+        <!--script src="../library/cannon.js"></script-->
+        <!--script src="../library/oimo.js"></script-->
+        <script src="../library/babylon.js"></script>
+
+        <script src="js/position.js"></script>
+
+    </head>
+<body>
+
+    <div id="canvasZone">
+    <canvas id="renderCanvas"></canvas>
+
+    <script type="text/javascript">
+
+        var canvas = document.getElementById("renderCanvas");
+        var engine = new BABYLON.Engine(canvas, true);
+        
+        var scene = createScene();
+
+        engine.runRenderLoop(function () {
+            scene.render();
+        });
+
+        // Resize
+        window.addEventListener("resize", function () {
+            engine.resize();
+        });
+    </script>
+</div>
+</body>
+</html>
