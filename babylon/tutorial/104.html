@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+   <meta charset="utf-8">
+   <title>104 Materials</title>
+   <link rel="icon" href="../../img/dragon.ico">
+
+   <link type="text/css" rel="stylesheet" href="css/tutorial.css">
+
+   <script src="../library/babylon.js"></script>
+   <script src="../library/hand.minified-1.2.js"></script>
+   <!--script src="../library/cannon.js"></script-->
+
+   <script src="js/104.js"></script>
+
+</head>
+
+
+<body>
+
+   <div class="header">
+      <h2>Tutorial 104 - <a href="http://doc.babylonjs.com/page.php?p=22051">Materials</a></h2>
+      <p>Powered by <a href="http://www.babylonjs.com/">Babylon.js</a></p>
+      <p>Licensed under <a href="../../license.txt">Apache 2.0</a></p>
+   </div
+
+   <div>
+      <canvas id="renderCanvas"></canvas>
+
+      <script type="text/javascript">
+
+         // Get the canvas element from our HTML below
+         var canvas = document.querySelector("#renderCanvas");
+
+         // Load the BABYLON 3D engine
+         var engine = new BABYLON.Engine(canvas, true);
+      
+         // Now, call the createScene function that you just finished creating
+         var scene = createScene();
+
+         // Register a render loop to repeatedly render the scene
+         engine.runRenderLoop(function () {
+            scene.render();
+         });
+
+         // Watch for browser/canvas resize events
+         window.addEventListener("resize", function () {
+            engine.resize();
+         });
+
+      </script>
+   </div>
+
+</body>
+</html>
