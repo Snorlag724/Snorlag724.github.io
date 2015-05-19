@@ -17,7 +17,7 @@ function createScene() {
    // Create Sprite Manager for Trees
    // Parameters: name, image URL, max capacity, cell size, scene
    var spriteManagerTree = new BABYLON.SpriteManager(
-      "treesManagr",
+      "treeManager",
       "sprites/palm.png",
       2000,
       800,
@@ -26,8 +26,8 @@ function createScene() {
 
 
    // Create Sprite Manager for Player
-   var spriteManagerTrees = new BABYLON.SpriteManager(
-      "playerManagr",
+   var spriteManagerPlayer = new BABYLON.SpriteManager(
+      "playerManager",
       "sprites/player.png",
       2,
       64,
