@@ -2,22 +2,6 @@
 // data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=
 
 
-var camerasBorderFunction = function () {
-        //Angle
-        //if (camera.beta < 0.1)
-            //camera.beta = 0.1;
-        //else if (camera.beta > (Math.PI / 2) * 0.9)
-            //camera.beta = (Math.PI / 2) * 0.9;
-
-  //Zoom
-        if (camera.radius > 2000)
-            camera.radius = 2000;
-
-        if (camera.radius < 10)
-            camera.radius = 10;
-    };
-
-
 function createScene() {
    var scene = new BABYLON.Scene(engine);
    scene.clearColor = new BABYLON.Color3(0, 0, 0);
@@ -31,6 +15,26 @@ function createScene() {
    scene.activeCamera = camera;
    // Attach User Input
    scene.activeCamera.attachControl(canvas);
+
+
+   // Limit Camera Bounds
+
+var cameraBorderFunction = function() {
+   //Angle
+   //if (camera.beta < 0.1)
+      //camera.beta = 0.1;
+   //else if (camera.beta > (Math.PI / 2) * 0.9)
+      //camera.beta = (Math.PI / 2) * 0.9;
+
+   //Zoom
+   if (camera.radius > 2000)
+      camera.radius = 2000;
+
+   if (camera.radius < 10)
+      camera.radius = 10;
+    };
+
+   scene.registerBeforeRender(cameraBorderFunction);
 
 
 
