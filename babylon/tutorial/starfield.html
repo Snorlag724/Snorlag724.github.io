@@ -38,6 +38,9 @@
          // Now, call the createScene function that you just finished creating
          var scene = createScene();
 
+         // Register Camera Border Function
+         scene.registerBeforeRender(cameraBorderFunction);
+
          // Register a render loop to repeatedly render the scene
          engine.runRenderLoop(function () {
             scene.render();
