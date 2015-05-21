@@ -49,11 +49,11 @@ var cameraBorderFunction = function() {
 
 
    // Add Stars Randomly
-   for (var i = 0; i < 3000; i++) {
+   for (var i = 0; i < 5000; i++) {
       star = new BABYLON.Sprite("star", spriteManagerStar);
-      star.position.x = Math.random() * 2000 - 1000;
-      star.position.y = Math.random() * 2000 - 1000;
-      star.position.z = Math.random() * 2000 - 1000;
+      star.position.x = Math.random() * 4000 - 2000;
+      star.position.y = Math.random() * 4000 - 2000;
+      star.position.z = Math.random() * 4000 - 2000;
    }
 
 
