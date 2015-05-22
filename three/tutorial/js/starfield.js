@@ -27,7 +27,7 @@ function createScene() {
 
 
    // Create Camera
-      camera = new THREE.PerspectiveCamera( 60, sceneWidth / sceneHeight, 1, 4000 );
+      camera = new THREE.PerspectiveCamera( 45, sceneWidth / sceneHeight, 1, 3000 );
       camera.position.z = 500;
       scene.add( camera );
 
@@ -41,7 +41,7 @@ function createScene() {
       controls.noZoom = false;
       controls.noPan = true;
       controls.staticMoving = false;
-      controls.dynamicDampingFactor = 0.4;
+      controls.dynamicDampingFactor = 0.7;
       controls.keys = [ 65, 83, 68 ];
       controls.addEventListener( 'change', render );
 
@@ -66,7 +66,7 @@ function createScene() {
       var colorizer;
       var sizer;
       var star;
-      for (var i = 0; i < 6000; i++) {
+      for (var i = 0; i < 8000; i++) {
 
          colorizer = Math.random() * 10;
 
@@ -80,6 +80,8 @@ function createScene() {
          star.position.x = Math.random() * 6000 - 3000;
          star.position.y = Math.random() * 6000 - 3000;
          star.position.z = Math.random() * 6000 - 3000;
+
+         star.id = i;
 
          scene.add( star);
       };
@@ -150,7 +152,7 @@ function onRenderClick( event ) {
 
          INTERSECTED = intersects[ 0 ].object;
 
-alert( "Star Position:\nx [" + INTERSECTED.position.x.toFixed(3) + "]\ny [" + INTERSECTED.position.y.toFixed(3) + "]\nz [" + INTERSECTED.position.z.toFixed(3) + "]" );
+alert( "Star ID [" + INTERSECTED.id + "]\nPosition:\n x [" + INTERSECTED.position.x.toFixed(3) + "]\n y [" + INTERSECTED.position.y.toFixed(3) + "]\n z [" + INTERSECTED.position.z.toFixed(3) + "]" );
 
       }
 
