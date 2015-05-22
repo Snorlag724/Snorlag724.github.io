@@ -30,7 +30,8 @@
 
       var header, renderZone;
       var sceneWidth, sceneHeight;
-      var camera, controls, scene, renderer, light;
+      var camera, controls, scene, renderer, light, raycaster;
+      var mouse = new THREE.Vector2(), INTERSECTED;
 
       createScene();
       animate();

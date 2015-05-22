@@ -27,7 +27,7 @@ function createScene() {
 
 
    // Create Camera
-      camera = new THREE.PerspectiveCamera( 60, sceneWidth / sceneHeight, 1, 2000 );
+      camera = new THREE.PerspectiveCamera( 60, sceneWidth / sceneHeight, 1, 4000 );
       camera.position.z = 500;
       scene.add( camera );
 
@@ -51,17 +51,22 @@ function createScene() {
 
 
 
+   // Create Raycaster to trap Click Events
+      raycaster = new THREE.Raycaster();
+
+
+
    // Create SpriteMaterial
       var materialWhite = new THREE.SpriteMaterial( { color: 0xffffff } );
-      var materialRed = new THREE.SpriteMaterial( { color: 0xffaaaa } );
-      var materialBlue = new THREE.SpriteMaterial( { color: 0xaaaaff } );
+      var materialRed = new THREE.SpriteMaterial( { color: 0xffccdd } );
+      var materialBlue = new THREE.SpriteMaterial( { color: 0xddccff } );
 
 
-   // Create Stars
+   // Create Sprite Stars
       var colorizer;
       var sizer;
       var star;
-      for (var i = 0; i < 5000; i++) {
+      for (var i = 0; i < 6000; i++) {
 
          colorizer = Math.random() * 10;
 
@@ -69,36 +74,46 @@ function createScene() {
          else if (colorizer < 8) star = new THREE.Sprite( materialRed );
          else star = new THREE.Sprite( materialBlue );
 
-         sizer = Math.random() * 5 + 1;
+         sizer = Math.random() * 4 + 2;
          star.scale.set( sizer, sizer, 1 );
+
+         star.position.x = Math.random() * 6000 - 3000;
+         star.position.y = Math.random() * 6000 - 3000;
+         star.position.z = Math.random() * 6000 - 3000;
+
+         scene.add( star);
+      };
+   //
+
+
+
+   /*/ Create Sphere Components
+      var materialWhite = new THREE.MeshBasicMaterial( { color: 0xffffff } );
+      var geometrySphere = new THREE.SphereGeometry( 10, 1, 1 );
+
+   // Create Sphere Stars
+      var star;
+      for (var i = 0; i < 1000; i++) {
+         star = new THREE.Mesh( geometrySphere, materialWhite );
 
          star.position.x = Math.random() * 4000 - 2000;
          star.position.y = Math.random() * 4000 - 2000;
          star.position.z = Math.random() * 4000 - 2000;
 
-         scene.add( star);
+         scene.add( star );
       };
+   /*/
+
+
+   // Draw line to nearby stars
+      
 
 
 
-   // Jump Range Sprite
-      var jumpRingTexture = new THREE.ImageUtils.loadTexture( "sprites/JumpRing.png" );
-      var materialJumpRange = new THREE.SpriteMaterial( { color: 0x00ff00, map: jumpRingTexture } );
-      var jumpRing = new THREE.Sprite( materialJumpRange );
-      jumpRing.scale.set( 20, 20, 1 );
-      scene.add( jumpRing );
 
 
-
-   // Create Jump Range Sphere
-      //var jumpAlphaMap = new THREE.ImageUtils.loadTexture( "textures/JumpAlpha.png" );
-      //var jumpRangeMaterial = new THREE.MeshBasicMaterial( { color: 0x008811, alphaMap: jumpAlphaMap } );
-      //var jumpRangeMaterial = new THREE.MeshBasicMaterial( { color: 0xaa8811, transparent: true, opacity: 0.2 } );
-      //var jumpRangeSphere = new THREE.Mesh( new THREE.SphereGeometry( 200, 20, 20 ), jumpRangeMaterial );
-      //scene.add( jumpRangeSphere );
-
-
-
+   // Register for Mouse Click
+      renderer.domElement.addEventListener( "click", onRenderClick, false );
 
 
 
@@ -108,6 +123,36 @@ function createScene() {
 
 
       render();
+
+}
+
+
+
+function onRenderClick( event ) {
+
+   // Disable Default Event
+      event.preventDefault();
+
+   // Get Mouse Position
+      mouse.x = ( event.clientX / sceneWidth ) * 2 - 1;
+      mouse.y = - ( ( event.clientY - header.offsetHeight ) / sceneHeight ) * 2 + 1;
+
+   // Plot Raycaster
+      //var vector = new THREE.Vector3( mouse.x, mouse.y, 0.5 ).unproject( camera );
+      //raycaster = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() );
+
+      raycaster = new THREE.Raycaster();
+      raycaster.setFromCamera( mouse, camera );
+
+   // Check for Intersection
+      var intersects = raycaster.intersectObjects( scene.children );
+      if (intersects.length > 0 ) {
+
+         INTERSECTED = intersects[ 0 ].object;
+
+alert( "Star Position:\nx [" + INTERSECTED.position.x.toFixed(3) + "]\ny [" + INTERSECTED.position.y.toFixed(3) + "]\nz [" + INTERSECTED.position.z.toFixed(3) + "]" );
+
+      }
 
 }
 
