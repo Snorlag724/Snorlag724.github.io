@@ -82,10 +82,10 @@ function createScene() {
 
 
    // Jump Range Sprite
-      var jumpRingTexture = new THREE. ImageUtils.loadTexture( "sprites/JumpRing.png" );
+      var jumpRingTexture = new THREE.ImageUtils.loadTexture( "sprites/JumpRing.png" );
       var materialJumpRange = new THREE.SpriteMaterial( { color: 0x00ff00, map: jumpRingTexture } );
-      var jumpRing = new THREE.Sprite( materialJumpRange);
-      scene.add( jumpRingTexture );
+      var jumpRing = new THREE.Sprite( materialJumpRange );
+      scene.add( jumpRing );
 
 
 
