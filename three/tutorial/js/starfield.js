@@ -81,12 +81,20 @@ function createScene() {
 
 
 
+   // Jump Range Sprite
+      var jumpRingTexture = new THREE. ImageUtils.loadTexture( "sprites/JumpRing.png" );
+      var materialJumpRange = new THREE.SpriteMaterial( { color: 0x00ff00, map: jumpRingTexture } );
+      var jumpRing = new THREE.Sprite( materialJumpRange);
+      scene.add( jumpRingTexture );
+
+
+
    // Create Jump Range Sphere
-      var jumpAlphaMap = new THREE.ImageUtils.loadTexture( "textures/JumpAlpha.png" );
-      var jumpRangeMaterial = new THREE.MeshBasicMaterial( { color: 0x008811, alphaMap: jumpAlphaMap } );
-      //var jumpRangeMaterial = new THREE.MeshBasicMaterial( { color: 0x008811, wireframe: true } );
-      var jumpRangeSphere = new THREE.Mesh( new THREE.SphereGeometry( 200, 20, 20 ), jumpRangeMaterial );
-      scene.add( jumpRangeSphere );
+      //var jumpAlphaMap = new THREE.ImageUtils.loadTexture( "textures/JumpAlpha.png" );
+      //var jumpRangeMaterial = new THREE.MeshBasicMaterial( { color: 0x008811, alphaMap: jumpAlphaMap } );
+      //var jumpRangeMaterial = new THREE.MeshBasicMaterial( { color: 0xaa8811, transparent: true, opacity: 0.2 } );
+      //var jumpRangeSphere = new THREE.Mesh( new THREE.SphereGeometry( 200, 20, 20 ), jumpRangeMaterial );
+      //scene.add( jumpRangeSphere );
 
 
 
