@@ -30,10 +30,13 @@
 
       var header, renderZone;
       var sceneWidth, sceneHeight;
-      var camera, controls, scene, renderer, light, raycaster;
+      var camera, controls, scene, renderer, light;
+      var raycaster = new THREE.Raycaster();
+      var spriteMaterials, lineMaterials;
       var mouse = new THREE.Vector2();
-      var stars = new Array();
-      var starHover, starClick;
+      var stars = [];
+      var jumpLines = [];
+      var ship, starClick, starHover, lineHover;
 
       createScene();
       animate();

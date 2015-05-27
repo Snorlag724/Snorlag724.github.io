@@ -27,21 +27,22 @@ function createScene() {
 
 
    // Create Camera
-      camera = new THREE.PerspectiveCamera( 45, sceneWidth / sceneHeight, 1, 3000 );
-      camera.position.z = 500;
+      camera = new THREE.PerspectiveCamera( 45, sceneWidth / sceneHeight, 10, 30000 );
+      camera.position.z = 5000;
       scene.add( camera );
 
 
 
    // Create Trackball Controls
       controls = new THREE.TrackballControls( camera );
-      controls.rotateSpeed = 1.0;
+      controls.rotateSpeed = 0.8;
       controls.zoomSpeed = 1.0;
-      controls.panSpeed = 1.0;
       controls.noZoom = false;
       controls.noPan = true;
       controls.staticMoving = false;
-      controls.dynamicDampingFactor = 0.7;
+      controls.dynamicDampingFactor = 0.6;
+      controls.minDistance = 0;
+      controls.maxDistance = 10000;
       controls.keys = [ 65, 83, 68 ];
       controls.addEventListener( 'change', render );
 
@@ -57,34 +58,44 @@ function createScene() {
 
 
    // Create SpriteMaterial
-      var materialWhite = new THREE.SpriteMaterial( { color: 0xffffff } );
-      var materialRed = new THREE.SpriteMaterial( { color: 0xffccdd } );
-      var materialBlue = new THREE.SpriteMaterial( { color: 0xddccff } );
+      spriteMaterials = { };
+      spriteMaterials.White = new THREE.SpriteMaterial( { color: 0xffffff } );
+      spriteMaterials.Red = new THREE.SpriteMaterial( { color: 0xffccdd } );
+      spriteMaterials.Blue = new THREE.SpriteMaterial( { color: 0xddccff } );
+      spriteMaterials.Ship = new THREE.SpriteMaterial( { color: 0xff55aa, rotation: 0.785 } );
+
+
+   // Add Ship
+      ship = new THREE.Sprite( spriteMaterials.Ship );
+      ship.scale.set( 50, 30, 1 );
+      ship.position = new THREE.Vector3( 0, 0, 0 );
+      ship.JumpRange = 1000;
+      scene.add( ship );
 
 
    // Create Sprite Stars
       var colorizer;
       var sizer;
       var star;
-      for (var i = 0; i < 4000; i++) {
+      for (var i = 0; i < 6000; i++) {
 
          colorizer = Math.random() * 10;
 
-         if (colorizer < 5) star = new THREE.Sprite( materialWhite );
-         else if (colorizer < 8) star = new THREE.Sprite( materialRed );
-         else star = new THREE.Sprite( materialBlue );
+         if (colorizer < 5) star = new THREE.Sprite( spriteMaterials.White );
+         else if (colorizer < 8) star = new THREE.Sprite( spriteMaterials.Red );
+         else star = new THREE.Sprite( spriteMaterials.Blue );
 
-         sizer = Math.random() * 4 + 2;
+         sizer = Math.random() * 20 + 20;
          star.scale.set( sizer, sizer, 1 );
 
-         star.position.x = ( Math.random() + Math.random() ) * 2000 - 2000;
-         star.position.y = ( Math.random() + Math.random() ) * 2000 - 2000;
+         star.position.x = ( Math.random() + Math.random() + Math.random() ) * 20000 - 30000;
+         star.position.y = ( Math.random() + Math.random() + Math.random() ) * 20000 - 30000;
 
       // 2/3 of Stars in Disc
          if ( Math.random() < 0.33 )
-            star.position.z = ( Math.random() + Math.random() ) * 1000 - 1000;
+            star.position.z = ( Math.random() + Math.random() + Math.random() ) * 10000 - 15000;
          else
-            star.position.z = ( Math.random() + Math.random() ) * 200 - 200;
+            star.position.z = ( Math.random() + Math.random() + Math.random() ) * 2000 - 3000;
 
          star.id = i;
          stars.push( star );
@@ -96,35 +107,20 @@ function createScene() {
 
 
    // Line Material
-      var materialLine = new THREE.LineBasicMaterial( { color: 0x115522 } );
+      lineMaterials = { };
+      lineMaterials.DarkGreen = new THREE.LineBasicMaterial( { color: 0x115511 } );
+      lineMaterials.Green = new THREE.LineBasicMaterial( { color: 0xaaffaa } );
+      lineMaterials.Red = new THREE.LineBasicMaterial( { color: 0xffaaaa } );
 
 
 
-   // Draw line to nearby stars
-      var line;
-      var geometryLine;
-      var starDistance;
-      for (var i = 0; i < stars.length; i++) {
-         // Check for Star near Zero Coordinates
-         star = stars[i];
-         starDistance = Math.sqrt(
-            ( ( star.position.x - 0 ) * ( star.position.x - 0 ) ) +
-            ( ( star.position.y - 0 ) * ( star.position.y - 0 ) ) +
-            ( ( star.position.z - 0 ) * ( star.position.z - 0 ) )
-         );
+   // Draw JumpLines
+      moveShip( ship.position );
 
-         // Draw line if Distance < 100
-         if ( starDistance < 100 ) {
-            geometryLine = new THREE.Geometry();
-            geometryLine.vertices.push(
-               new THREE.Vector3( 0, 0, 0 ),
-               new THREE.Vector3( star.position.x, star.position.y, star.position.z )
-            );
-            line = new THREE.Line( geometryLine, materialLine );
-            scene.add( line );
-         }
-      };
-   //
+
+
+   // Clear Initial lineHover
+      lineHover = null;
 
 
 
@@ -166,6 +162,60 @@ function render() {
 
 
 
+function getStarDistance( star ) {
+
+   // Compare 3d Distance
+      return Math.sqrt(
+         ( ( star.position.x - ship.position.x ) * ( star.position.x - ship.position.x ) ) +
+         ( ( star.position.y - ship.position.y ) * ( star.position.y - ship.position.y ) ) +
+         ( ( star.position.z - ship.position.z ) * ( star.position.z - ship.position.z ) )
+      );
+
+}
+
+
+
+function moveShip( position ) {
+
+   // Remove Hover Line
+   if ( lineHover !== null ) scene.remove( lineHover );
+   lineHover = null;
+   starHover = null;
+
+   // Update Ship Position
+   ship.position.copy( position );
+
+   // Remove Old Jump Lines
+   var line;
+   while ( jumpLines.length > 0 ) {
+      line = jumpLines.pop();
+      scene.remove( line );
+   }
+
+   // Add New Jump Lines
+   var geometryLine;
+   for (var i = 0; i < stars.length; i++) {
+
+      // Check for Star near Ship
+      star = stars[i];
+
+      // Draw line if Distance < JumpRange
+      if ( getStarDistance( star ) < ship.JumpRange ) {
+         geometryLine = new THREE.Geometry();
+         geometryLine.vertices.push(
+            new THREE.Vector3( ship.position.x, ship.position.y, ship.position.z ),
+            new THREE.Vector3( star.position.x, star.position.y, star.position.z )
+         );
+         line = new THREE.Line( geometryLine, lineMaterials.DarkGreen );
+         jumpLines.push( line );
+         scene.add( line );
+      }
+   };
+
+}
+
+
+
 function onDocumentMouseMove( event ) {
 
    // Prevent Default Action
@@ -176,7 +226,45 @@ function onDocumentMouseMove( event ) {
       mouse.y = - ( ( event.clientY - header.offsetHeight ) / sceneHeight ) * 2 + 1;
 
    // Show Line if over Star
+      //raycaster = new THREE.Raycaster();
+      raycaster.setFromCamera( mouse, camera );
 
+   // Check for Intersection
+      var intersects = raycaster.intersectObjects( scene.children );
+      if ( intersects.length > 0 ) {
+
+         // Trap Reference
+         if ( starHover !== intersects[ 0 ].object ) {
+            starHover = intersects[ 0 ].object;
+
+            // Remove Old Hover Line
+            if ( lineHover !== null ) scene.remove( lineHover );
+
+            // Generate New Hover Line Geometry
+            geometryLine = new THREE.Geometry();
+            geometryLine.vertices.push(
+               new THREE.Vector3( ship.position.x, ship.position.y, ship.position.z ),
+               new THREE.Vector3( starHover.position.x, starHover.position.y, starHover.position.z )
+            );
+
+            // Draw Hover Line
+            if ( getStarDistance( starHover ) < ship.JumpRange ) lineHover = new THREE.Line( geometryLine, lineMaterials.Green );
+            else lineHover = new THREE.Line( geometryLine, lineMaterials.Red );
+
+            scene.add( lineHover );
+
+         }
+
+      }
+      else {
+
+         if ( lineHover !== null ) scene.remove( lineHover );
+         lineHover = null;
+         starHover = null;
+
+      }
+
+      render();
 
 }
 
@@ -188,7 +276,7 @@ function onDocumentMouseDown( event ) {
       event.preventDefault();
 
    // Trap Selected Star
-      raycaster = new THREE.Raycaster();
+      //raycaster = new THREE.Raycaster();
       raycaster.setFromCamera( mouse, camera );
 
    // Check for Intersection
@@ -209,7 +297,7 @@ function onDocumentMouseUp( event ) {
       if ( starClick === null ) return;
 
    // Trap Selected Star
-      raycaster = new THREE.Raycaster();
+      //raycaster = new THREE.Raycaster();
       raycaster.setFromCamera( mouse, camera );
 
    // Check for Intersection
@@ -219,11 +307,17 @@ function onDocumentMouseUp( event ) {
          // Check for click-drag
          if ( starClick === intersects[ 0 ].object ) {
 
-            alert( "Star ID [" + starClick.id +
+            if ( getStarDistance( starClick ) < ship.JumpRange ) {
+               moveShip( starClick.position );
+               controls.target = starClick.position;
+               controls.update();
+            }
+
+            /*/alert( "Star ID [" + starClick.id +
                "]\nPosition:\n x [" + starClick.position.x.toFixed(3) +
                "]\n y [" + starClick.position.y.toFixed(3) +
                "]\n z [" + starClick.position.z.toFixed(3) + "]"
-            );
+            );/*/
 
          }
 
