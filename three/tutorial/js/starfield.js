@@ -27,7 +27,7 @@ function createScene() {
 
 
    // Create Camera
-      camera = new THREE.PerspectiveCamera( 45, sceneWidth / sceneHeight, 10, 30000 );
+      camera = new THREE.PerspectiveCamera( 45, sceneWidth / sceneHeight, 10, 20000 );
       camera.position.z = 5000;
       scene.add( camera );
 
@@ -35,13 +35,13 @@ function createScene() {
 
    // Create Trackball Controls
       controls = new THREE.TrackballControls( camera );
-      controls.rotateSpeed = 0.8;
+      controls.rotateSpeed = 0.6;
       controls.zoomSpeed = 1.0;
       controls.noZoom = false;
       controls.noPan = true;
       controls.staticMoving = false;
       controls.dynamicDampingFactor = 0.6;
-      controls.minDistance = 0;
+      controls.minDistance = 10;
       controls.maxDistance = 10000;
       controls.keys = [ 65, 83, 68 ];
       controls.addEventListener( 'change', render );
@@ -67,42 +67,15 @@ function createScene() {
 
    // Add Ship
       ship = new THREE.Sprite( spriteMaterials.Ship );
-      ship.scale.set( 50, 30, 1 );
+      ship.scale.set( 30, 10, 1 );
       ship.position = new THREE.Vector3( 0, 0, 0 );
       ship.JumpRange = 1000;
       scene.add( ship );
 
 
+
    // Create Sprite Stars
-      var colorizer;
-      var sizer;
-      var star;
-      for (var i = 0; i < 6000; i++) {
-
-         colorizer = Math.random() * 10;
-
-         if (colorizer < 5) star = new THREE.Sprite( spriteMaterials.White );
-         else if (colorizer < 8) star = new THREE.Sprite( spriteMaterials.Red );
-         else star = new THREE.Sprite( spriteMaterials.Blue );
-
-         sizer = Math.random() * 20 + 20;
-         star.scale.set( sizer, sizer, 1 );
-
-         star.position.x = ( Math.random() + Math.random() + Math.random() ) * 20000 - 30000;
-         star.position.y = ( Math.random() + Math.random() + Math.random() ) * 20000 - 30000;
-
-      // 2/3 of Stars in Disc
-         if ( Math.random() < 0.33 )
-            star.position.z = ( Math.random() + Math.random() + Math.random() ) * 10000 - 15000;
-         else
-            star.position.z = ( Math.random() + Math.random() + Math.random() ) * 2000 - 3000;
-
-         star.id = i;
-         stars.push( star );
-
-         scene.add( star );
-      };
-   //
+      drawStars();
 
 
 
@@ -170,6 +143,42 @@ function getStarDistance( star ) {
          ( ( star.position.y - ship.position.y ) * ( star.position.y - ship.position.y ) ) +
          ( ( star.position.z - ship.position.z ) * ( star.position.z - ship.position.z ) )
       );
+
+}
+
+
+
+function drawStars() {
+
+   var colorizer;
+   var sizer;
+   var star;
+   for (var i = 0; i < 10000; i++) {
+
+      colorizer = Math.random() * 10;
+
+      if (colorizer < 5) star = new THREE.Sprite( spriteMaterials.White );
+      else if (colorizer < 8) star = new THREE.Sprite( spriteMaterials.Red );
+      else star = new THREE.Sprite( spriteMaterials.Blue );
+
+      //sizer = Math.random() * 20 + 20;
+      //star.scale.set( sizer, sizer, 1 );
+      star.scale.set( 30, 30, 1 );
+
+      star.position.x = ( Math.random() + Math.random() + Math.random() ) * 20000 - 30000;
+      star.position.y = ( Math.random() + Math.random() + Math.random() ) * 20000 - 30000;
+
+   // 2/3 of Stars in Disc
+      if ( Math.random() < 0.33 )
+         star.position.z = ( Math.random() + Math.random() + Math.random() ) * 10000 - 15000;
+      else
+         star.position.z = ( Math.random() + Math.random() + Math.random() ) * 2000 - 3000;
+
+      star.id = i;
+      stars.push( star );
+
+      scene.add( star );
+   };
 
 }
 
@@ -312,13 +321,14 @@ function onDocumentMouseUp( event ) {
                controls.target = starClick.position;
                controls.update();
             }
-
-            /*/alert( "Star ID [" + starClick.id +
-               "]\nPosition:\n x [" + starClick.position.x.toFixed(3) +
-               "]\n y [" + starClick.position.y.toFixed(3) +
-               "]\n z [" + starClick.position.z.toFixed(3) + "]"
-            );/*/
-
+            else {
+               alert( "Star ID [" + starClick.id +
+                  "]\nPosition:\n x [" + starClick.position.x.toFixed(3) +
+                  "]\n y [" + starClick.position.y.toFixed(3) +
+                  "]\n z [" + starClick.position.z.toFixed(3) +
+                  "]\n\nDistance:\n" + getStarDistance( starClick ).toFixed(3)
+               );
+            }
          }
 
       }
