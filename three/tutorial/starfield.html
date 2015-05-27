@@ -31,7 +31,9 @@
       var header, renderZone;
       var sceneWidth, sceneHeight;
       var camera, controls, scene, renderer, light, raycaster;
-      var mouse = new THREE.Vector2(), INTERSECTED;
+      var mouse = new THREE.Vector2();
+      var stars = new Array();
+      var starHover, starClick;
 
       createScene();
       animate();

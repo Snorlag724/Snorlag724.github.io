@@ -66,7 +66,7 @@ function createScene() {
       var colorizer;
       var sizer;
       var star;
-      for (var i = 0; i < 8000; i++) {
+      for (var i = 0; i < 4000; i++) {
 
          colorizer = Math.random() * 10;
 
@@ -77,46 +77,61 @@ function createScene() {
          sizer = Math.random() * 4 + 2;
          star.scale.set( sizer, sizer, 1 );
 
-         star.position.x = Math.random() * 6000 - 3000;
-         star.position.y = Math.random() * 6000 - 3000;
-         star.position.z = Math.random() * 6000 - 3000;
+         star.position.x = ( Math.random() + Math.random() ) * 2000 - 2000;
+         star.position.y = ( Math.random() + Math.random() ) * 2000 - 2000;
+
+      // 2/3 of Stars in Disc
+         if ( Math.random() < 0.33 )
+            star.position.z = ( Math.random() + Math.random() ) * 1000 - 1000;
+         else
+            star.position.z = ( Math.random() + Math.random() ) * 200 - 200;
 
          star.id = i;
+         stars.push( star );
 
-         scene.add( star);
+         scene.add( star );
       };
    //
 
 
 
-   /*/ Create Sphere Components
-      var materialWhite = new THREE.MeshBasicMaterial( { color: 0xffffff } );
-      var geometrySphere = new THREE.SphereGeometry( 10, 1, 1 );
+   // Line Material
+      var materialLine = new THREE.LineBasicMaterial( { color: 0x115522 } );
 
-   // Create Sphere Stars
-      var star;
-      for (var i = 0; i < 1000; i++) {
-         star = new THREE.Mesh( geometrySphere, materialWhite );
-
-         star.position.x = Math.random() * 4000 - 2000;
-         star.position.y = Math.random() * 4000 - 2000;
-         star.position.z = Math.random() * 4000 - 2000;
-
-         scene.add( star );
-      };
-   /*/
 
 
    // Draw line to nearby stars
-      
+      var line;
+      var geometryLine;
+      var starDistance;
+      for (var i = 0; i < stars.length; i++) {
+         // Check for Star near Zero Coordinates
+         star = stars[i];
+         starDistance = Math.sqrt(
+            ( ( star.position.x - 0 ) * ( star.position.x - 0 ) ) +
+            ( ( star.position.y - 0 ) * ( star.position.y - 0 ) ) +
+            ( ( star.position.z - 0 ) * ( star.position.z - 0 ) )
+         );
+
+         // Draw line if Distance < 100
+         if ( starDistance < 100 ) {
+            geometryLine = new THREE.Geometry();
+            geometryLine.vertices.push(
+               new THREE.Vector3( 0, 0, 0 ),
+               new THREE.Vector3( star.position.x, star.position.y, star.position.z )
+            );
+            line = new THREE.Line( geometryLine, materialLine );
+            scene.add( line );
+         }
+      };
+   //
 
 
 
-
-
-   // Register for Mouse Click
-      renderer.domElement.addEventListener( "click", onRenderClick, false );
-
+   // Register for Mouse Events
+      renderer.domElement.addEventListener( "mousemove", onDocumentMouseMove, false );
+      renderer.domElement.addEventListener( "mousedown", onDocumentMouseDown, false );
+      renderer.domElement.addEventListener( "mouseup", onDocumentMouseUp, false );
 
 
    // Register for Window Resize
@@ -125,36 +140,6 @@ function createScene() {
 
 
       render();
-
-}
-
-
-
-function onRenderClick( event ) {
-
-   // Disable Default Event
-      event.preventDefault();
-
-   // Get Mouse Position
-      mouse.x = ( event.clientX / sceneWidth ) * 2 - 1;
-      mouse.y = - ( ( event.clientY - header.offsetHeight ) / sceneHeight ) * 2 + 1;
-
-   // Plot Raycaster
-      //var vector = new THREE.Vector3( mouse.x, mouse.y, 0.5 ).unproject( camera );
-      //raycaster = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() );
-
-      raycaster = new THREE.Raycaster();
-      raycaster.setFromCamera( mouse, camera );
-
-   // Check for Intersection
-      var intersects = raycaster.intersectObjects( scene.children );
-      if (intersects.length > 0 ) {
-
-         INTERSECTED = intersects[ 0 ].object;
-
-alert( "Star ID [" + INTERSECTED.id + "]\nPosition:\n x [" + INTERSECTED.position.x.toFixed(3) + "]\n y [" + INTERSECTED.position.y.toFixed(3) + "]\n z [" + INTERSECTED.position.z.toFixed(3) + "]" );
-
-      }
 
 }
 
@@ -176,6 +161,73 @@ function render() {
 
    // Rebuild Scene
       renderer.render( scene, camera );
+
+}
+
+
+
+function onDocumentMouseMove( event ) {
+
+   // Prevent Default Action
+      event.preventDefault();
+
+   // Track Mouse Position
+      mouse.x = ( event.clientX / sceneWidth ) * 2 - 1;
+      mouse.y = - ( ( event.clientY - header.offsetHeight ) / sceneHeight ) * 2 + 1;
+
+   // Show Line if over Star
+
+
+}
+
+
+
+function onDocumentMouseDown( event ) {
+
+   // Disable Default Event
+      event.preventDefault();
+
+   // Trap Selected Star
+      raycaster = new THREE.Raycaster();
+      raycaster.setFromCamera( mouse, camera );
+
+   // Check for Intersection
+      var intersects = raycaster.intersectObjects( scene.children );
+      if ( intersects.length > 0 ) starClick = intersects[ 0 ].object;
+      else starClick = null;
+
+}
+
+
+
+function onDocumentMouseUp( event ) {
+
+   // Disable Default Event
+      event.preventDefault();
+
+   // Nothing selected
+      if ( starClick === null ) return;
+
+   // Trap Selected Star
+      raycaster = new THREE.Raycaster();
+      raycaster.setFromCamera( mouse, camera );
+
+   // Check for Intersection
+      var intersects = raycaster.intersectObjects( scene.children );
+      if (intersects.length > 0 ) {
+
+         // Check for click-drag
+         if ( starClick === intersects[ 0 ].object ) {
+
+            alert( "Star ID [" + starClick.id +
+               "]\nPosition:\n x [" + starClick.position.x.toFixed(3) +
+               "]\n y [" + starClick.position.y.toFixed(3) +
+               "]\n z [" + starClick.position.z.toFixed(3) + "]"
+            );
+
+         }
+
+      }
 
 }
 
